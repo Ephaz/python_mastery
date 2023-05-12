@@ -1,4 +1,3 @@
-import math
 
 house_portion_down_payment = 0.25
 annual_salary = float(input("How much is your annual salary? > "))
@@ -14,11 +13,9 @@ x = (annual_salary/12) * portion_of_salary_to_contribute
 #amount required to save or the down payment amount
 amount_required_to_save = house_portion_down_payment * total_cost_of_house
 
-print(amount_required_to_save)
-
 #the current savings are zero, therefore it starts here
 current_savings = 0
-
+#This is the number of months that one should save for down payment
 number_of_months = 0
 
 while current_savings < amount_required_to_save:
