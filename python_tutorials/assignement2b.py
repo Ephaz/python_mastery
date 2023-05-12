@@ -24,7 +24,6 @@ while current_savings < amount_required_to_save:
     #this loop updates the annual salary every 6 months 
     if number_of_months % 6 == 0:
         annual_salary += annual_salary * semi_annual_raise
-        monthly_salary = annual_salary / 12
-    
+        
     #print the number of monts required to save to afford the deposit        
 print(f"Number of months:{number_of_months}")
