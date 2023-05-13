@@ -79,7 +79,9 @@ def get_guessed_word(secret_word, letters_guessed):
       which letters in secret_word have been guessed so far.
     '''
     i = 0
+    # the loops goes throug the words and checks if they are in the secret word and fills in the complete word list
     complete_word = []
+    
     while i < len(secret_word):
         # a is a boolean, as a result of an iterative loop checking if all letters are in the secret word.
         a = secret_word[i] in letters_guessed
@@ -91,23 +93,32 @@ def get_guessed_word(secret_word, letters_guessed):
           complete_word += "_"
           # print(complete_word)
         i +=1
-    return complete_word
+    # to return a string we use the join method to convert the list to a string and we return that value.
+    return ''.join(complete_word)
+  
+# secret_word = 'apple'
+# letters_guessed = ['e', 'i', 'k', 'p', 'r', 's']
+# print(get_guessed_word(secret_word, letters_guessed) )
     
-
-secret_word = 'apple'
-letters_guessed = ['a', 'p', 'k', 'e', 'l', 's']
-print(get_guessed_word(secret_word, letters_guessed))
-
-
+    
 def get_available_letters(letters_guessed):
     '''
     letters_guessed: list (of letters), which letters have been guessed so far
     returns: string (of letters), comprised of letters that represents which letters have not
       yet been guessed.
     '''
-    # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
+    i = 0
+    while i < len(string.ascii_lowercase):
+      if string.ascii_lowercase[i] in letters_guessed:
+        string.ascii_lowercase = string.ascii_lowercase.replace(string.ascii_lowercase[i],"")
+        # print(string.ascii_lowercase)
+      i += 1
+    return string.ascii_lowercase
+
     
+    
+letters_guessed = ['a', 'b', 'c', 'p', 'r', 'z']
+print (get_available_letters(letters_guessed))
     
 
 def hangman(secret_word):
