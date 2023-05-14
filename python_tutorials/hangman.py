@@ -22,16 +22,14 @@ def load_words():
     Depending on the size of the word list, this function may
     take a while to finish.
     """
-    print("Loading word list from file...")
     # inFile: file
     inFile = open(WORDLIST_FILENAME, 'r')
     # line: string
     line = inFile.readline()
     # wordlist: list of strings
     wordlist = line.split()
-    print("  ", len(wordlist), "words loaded.")
+    
     return wordlist
-
 
 
 def choose_word(wordlist):
@@ -69,7 +67,6 @@ def is_word_guessed(secret_word, letters_guessed):
         i +=1
     return a
 
- 
 
 def get_guessed_word(secret_word, letters_guessed):
     '''
@@ -95,11 +92,7 @@ def get_guessed_word(secret_word, letters_guessed):
         i +=1
     # to return a string we use the join method to convert the list to a string and we return that value.
     return ''.join(complete_word)
-  
-# secret_word = 'apple'
-# letters_guessed = ['e', 'i', 'k', 'p', 'r', 's']
-# print(get_guessed_word(secret_word, letters_guessed) )
-    
+   
     
 def get_available_letters(letters_guessed):
     '''
@@ -107,19 +100,15 @@ def get_available_letters(letters_guessed):
     returns: string (of letters), comprised of letters that represents which letters have not
       yet been guessed.
     '''
+    m = 0
     i = 0
-    while i < len(string.ascii_lowercase):
+    while m < len(string.ascii_lowercase):
       if string.ascii_lowercase[i] in letters_guessed:
         string.ascii_lowercase = string.ascii_lowercase.replace(string.ascii_lowercase[i],"")
-        # print(string.ascii_lowercase)
       i += 1
+      m += 1
     return string.ascii_lowercase
 
-    
-    
-letters_guessed = ['a', 'b', 'c', 'p', 'r', 'z']
-print (get_available_letters(letters_guessed))
-    
 
 def hangman(secret_word):
     '''
@@ -145,12 +134,54 @@ def hangman(secret_word):
       partially guessed word so far.
     
     Follows the other limitations detailed in the problem write-up.
+    
     '''
-    # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
+    # loading words from file
+    loaded_words = print("   Loading word list from file...")
+    
+    # output the number of words available to user
+    number_of_words_loaded = print("  ", len(wordlist), "words loaded.")
+    
+    #hangman starts and introduces game to user
+    welcome_to_hangman = print("   Welcome to the game Hangman!")
+    
+    # calling the random word function
+    random_word = random.choice(wordlist)
+    
+    # counting the length of the word to give a user the length of the word
+    wordlist_count = len(random_word)
+    
+    # calling the get_guessed function and displaying the spaces and words filled in.
+    secret_word = random_word
+    gueses_done = get_guessed_word(secret_word, letters_guessed)
+    
+    # print("  ","Welcome to the game Hangman!")
+    word_length = print("  ",f"I am thinking of a word that is {wordlist_count} letters long.")
+    
+    # display the number of spaces the user has before the game starts from the get_guessed function
+    user_gueses = print("   ",gueses_done)
+    
+    user_gueses_left = print("   You have 6 guesses left")
+  
+    # call the get_available_letters funtion to display the words available
+    get_available_letters(letters_guessed)
+  
+    # display available letters to the user
+    available_letters_left = print("   "f"Available letters: {get_available_letters(letters_guessed)}")
+    
+    # when hangman is called, it will do the following actions
+    actions  = [loaded_words ,number_of_words_loaded,welcome_to_hangman, word_length, user_gueses, user_gueses_left, available_letters_left]
+    
+    return actions     
+    
+      
 
 
 
+# letters guessed will be an input from the user
+letters_guessed = []
+
+  
 # When you've completed your hangman function, scroll down to the bottom
 # of the file and uncomment the first two lines to test
 #(hint: you might want to pick your own
@@ -234,13 +265,14 @@ if __name__ == "__main__":
     # To test part 2, comment out the pass line above and
     # uncomment the following two lines.
     
-    secret_word = choose_word(wordlist)
-    hangman(secret_word)
+    # secret_word = choose_word(wordlist)
+    # hangman(secret_word)
 
 ###############
     
     # To test part 3 re-comment out the above lines and 
     # uncomment the following two lines. 
     
-    #secret_word = choose_word(wordlist)
-    #hangman_with_hints(secret_word)
+  secret_word = choose_word(wordlist)
+  hangman_with_hints(secret_word)
+  

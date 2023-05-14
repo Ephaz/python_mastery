@@ -15,5 +15,8 @@ def is_word_guessed(secret_word, letters_guessed):
         a = secret_word[i] in letters_guessed     
         i +=1
     return a
- 
+
+secret_word = 'apple'
+letters_guessed = ['e', 'i', 'k', 'p', 'r', 's']
 x = is_word_guessed(secret_word= "apple",letters_guessed=['a', 'p', 'e', 'l'])
+print(is_word_guessed(secret_word, letters_guessed))
