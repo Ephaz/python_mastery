@@ -91,7 +91,8 @@ def get_guessed_word(secret_word, letters_guessed):
           # print(complete_word)
         i +=1
     # to return a string we use the join method to convert the list to a string and we return that value.
-    return ''.join(complete_word)
+    complete_guessed_word = ''.join(complete_word)
+    return complete_guessed_word
    
     
 def get_available_letters(letters_guessed):
@@ -172,14 +173,77 @@ def hangman(secret_word):
     # when hangman is called, it will do the following actions
     actions  = [loaded_words ,number_of_words_loaded,welcome_to_hangman, word_length, user_gueses, user_gueses_left, available_letters_left]
     
-    return actions     
-    
+    return actions 
       
-
-
+letters_guessed = [] 
 
 # letters guessed will be an input from the user
-letters_guessed = []
+def user_input():
+
+  # number of guesses the user has when they start the game
+  guesses = 6
+  
+  secret_word = "apple"
+  
+  # user has 3 warnings everytime they start
+  
+
+  # user letters are taken in as the while loop iterates throught the game
+  user_letters = []
+    
+  while guesses != 0:
+    letters_guessed = input("Please guess a letter: \n")
+     
+  #taking user input and making sure it is always lowercase
+    letters_guessed = letters_guessed.lower()
+  
+  # populate the user list with all letters from the user
+    user_letters += letters_guessed
+    
+  # print the guesses the user has everytime they try to guess the correct word
+    print(f"You have {guesses} guesses left\n")
+  
+  # user has 3 warnings everytime they start
+    # user_warnings = 
+  
+  # the user loses a guess only when they guess a letter that is not in the secret word
+    if letters_guessed in secret_word:
+      print(f"Available letters:{get_available_letters(letters_guessed)}\n")
+      print(f"Good guess: {get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
+      print("---------------------")
+      
+      warnings = 3
+      warnings_to_user = []
+      while warnings != 0:
+        if letters_guessed in user_letters:
+          warnings -= 1
+          print(f"You have {warnings} warnings left")
+        else:
+          continue
+    
+    else:
+      print(f"Available letters:{get_available_letters(letters_guessed)}\n")
+      print(f"Oops! That letter is not in my word :{get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
+      print("---------------------")
+      guesses -= 1
+      
+
+   
+
+  get_guessed_word(secret_word, letters_guessed)
+  # get_available_letters(letters_guessed)
+  
+  
+user_input()
+# secret_word = choose_word(wordlist)
+# hangman(secret_word)
+
+
+# warnings available to the user
+
+
+
+
 
   
 # When you've completed your hangman function, scroll down to the bottom
@@ -248,7 +312,7 @@ def hangman_with_hints(secret_word):
     
     Follows the other limitations detailed in the problem write-up.
     '''
-    # FILL IN YOUR CODE HERE AND DELETE "pass"
+   
     pass
 
 
