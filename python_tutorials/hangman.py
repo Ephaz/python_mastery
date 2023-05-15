@@ -11,6 +11,7 @@
 # (so be sure to read the docstrings!)
 import random
 import string
+import re
 
 WORDLIST_FILENAME = "words.txt"
 
@@ -173,7 +174,7 @@ def hangman(secret_word):
     # when hangman is called, it will do the following actions
     actions  = [loaded_words ,number_of_words_loaded,welcome_to_hangman, word_length, user_gueses, user_gueses_left, available_letters_left]
     
-    return actions 
+    return (loaded_words ,number_of_words_loaded,welcome_to_hangman, word_length, user_gueses, user_gueses_left, available_letters_left)
       
 letters_guessed = [] 
 
@@ -185,47 +186,73 @@ def user_input():
   
   secret_word = "apple"
   
-  # user has 3 warnings everytime they start
-  
-
   # user letters are taken in as the while loop iterates throught the game
   user_letters = []
+  print(user_letters)
+  
+  warnings = 3
+   
+  while guesses != 0 or warnings != 0:
+       
+    # warnings to the user if they input forbiden characters or input a word twice
     
-  while guesses != 0:
+    print(f"You have {warnings} left")
+    # print the guesses the user has everytime they try to guess the correct word
+    print(f"You have {guesses} guess/(es) left\n")
+    
+    # user has available letters for each guess that are unique to those they have already guessed
+    print(f"Available letters:{get_available_letters(letters_guessed = user_letters)}\n")
+    
+    # catching the user input into letters_guesssed
     letters_guessed = input("Please guess a letter: \n")
-     
-  #taking user input and making sure it is always lowercase
-    letters_guessed = letters_guessed.lower()
-  
-  # populate the user list with all letters from the user
-    user_letters += letters_guessed
     
-  # print the guesses the user has everytime they try to guess the correct word
-    print(f"You have {guesses} guesses left\n")
+     
+    string_check = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+    
+    user_letters.append(letters_guessed)
+    
+    #taking user input and making sure it is always lowercase
+    letters_guessed = letters_guessed.lower()  
+        
+    if letters_guessed in secret_word:
+      print(f"Good guess: {get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
+      print("---------------------\n")
+      
+    elif(string_check.search(letters_guessed) != None or letters_guessed.isnumeric()):
+        
+        if warnings <= 0:
+          warnings = 0
+          print(f"Oops! That letter is a valid letter. : {get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
+          print("---------------------\n")
+          guesses -= 1
+                    
+        else:
+          warnings -=1
+          print(f"Oops! That letter is a valid letter. You have {warnings} warnings left: {get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
+          print("---------------------\n")
+          guesses -= 1
+         
+    else:
+        print(f"Oops! That letter is not in my word :{get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
+        print("---------------------\n")
+        guesses -= 1
+      
+        
+    # populate the user list with all letters from the user
+    # user_letters.append(letters_guessed)
+      
+     
   
-  # user has 3 warnings everytime they start
+  
+    
+    
+    # user has 3 warnings everytime they start
     # user_warnings = 
   
-  # the user loses a guess only when they guess a letter that is not in the secret word
-    if letters_guessed in secret_word:
-      print(f"Available letters:{get_available_letters(letters_guessed)}\n")
-      print(f"Good guess: {get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
-      print("---------------------")
+    # the user loses a guess only when they guess a letter that is not in the secret word
+   
       
-      warnings = 3
-      warnings_to_user = []
-      while warnings != 0:
-        if letters_guessed in user_letters:
-          warnings -= 1
-          print(f"You have {warnings} warnings left")
-        else:
-          continue
-    
-    else:
-      print(f"Available letters:{get_available_letters(letters_guessed)}\n")
-      print(f"Oops! That letter is not in my word :{get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
-      print("---------------------")
-      guesses -= 1
+      
       
 
    
@@ -329,14 +356,15 @@ if __name__ == "__main__":
     # To test part 2, comment out the pass line above and
     # uncomment the following two lines.
     
-    # secret_word = choose_word(wordlist)
-    # hangman(secret_word)
+  # secret_word = choose_word(wordlist)
+  # hangman(secret_word)
 
 ###############
     
     # To test part 3 re-comment out the above lines and 
     # uncomment the following two lines. 
     
-  secret_word = choose_word(wordlist)
-  hangman_with_hints(secret_word)
+  # secret_word = choose_word(wordlist)
+  # hangman_with_hints(secret_word)
+  pass
   
