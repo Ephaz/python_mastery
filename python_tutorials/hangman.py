@@ -49,6 +49,9 @@ def choose_word(wordlist):
 # so that it can be accessed from anywhere in the program
 wordlist = load_words()
 
+# calling the random word function
+random_word = random.choice(wordlist)
+
 
 def is_word_guessed(secret_word, letters_guessed):
   
@@ -62,13 +65,15 @@ def is_word_guessed(secret_word, letters_guessed):
     '''   
     #loop through the secret letters compared to the guessed letter
     i = 0
-    while i < len(secret_word):
+    b = len(secret_word)
+    
+    while i < b:
         # a is a boolean, as a result of an iterative loop checking if all letters are in the secret word
-        a = secret_word[i] in letters_guessed     
-        i +=1
-    return a
-
-
+      a = secret_word [i] in letters_guessed
+      i +=1
+      return a
+      
+  
 def get_guessed_word(secret_word, letters_guessed):
     '''
     secret_word: string, the word the user is guessing
@@ -93,9 +98,10 @@ def get_guessed_word(secret_word, letters_guessed):
         i +=1
     # to return a string we use the join method to convert the list to a string and we return that value.
     complete_guessed_word = ''.join(complete_word)
+    
     return complete_guessed_word
    
-    
+
 def get_available_letters(letters_guessed):
     '''
     letters_guessed: list (of letters), which letters have been guessed so far
@@ -110,6 +116,9 @@ def get_available_letters(letters_guessed):
       i += 1
       m += 1
     return string.ascii_lowercase
+
+
+    
 
 
 def hangman(secret_word):
@@ -139,64 +148,72 @@ def hangman(secret_word):
     
     '''
     # loading words from file
-    loaded_words = print("   Loading word list from file...")
+    loaded_words = print("Loading word list from file...")
     
     # output the number of words available to user
-    number_of_words_loaded = print("  ", len(wordlist), "words loaded.")
+    number_of_words_loaded = print(len(wordlist), "words loaded.")
     
     #hangman starts and introduces game to user
-    welcome_to_hangman = print("   Welcome to the game Hangman!")
-    
-    # calling the random word function
-    random_word = random.choice(wordlist)
-    
+    welcome_to_hangman = print("Welcome to the game Hangman!")
+       
     # counting the length of the word to give a user the length of the word
     wordlist_count = len(random_word)
     
     # calling the get_guessed function and displaying the spaces and words filled in.
     secret_word = random_word
+    
     gueses_done = get_guessed_word(secret_word, letters_guessed)
     
     # print("  ","Welcome to the game Hangman!")
-    word_length = print("  ",f"I am thinking of a word that is {wordlist_count} letters long.")
+    word_length = print(f"I am thinking of a word that is {wordlist_count} letters long.")
     
     # display the number of spaces the user has before the game starts from the get_guessed function
-    user_gueses = print("   ",gueses_done)
+    user_gueses = print(gueses_done)
     
-    user_gueses_left = print("   You have 6 guesses left")
+    # user_gueses_left = print("You have 6 guesses left")
   
-    # call the get_available_letters funtion to display the words available
-    get_available_letters(letters_guessed)
+    # # call the get_available_letters funtion to display the words available
+    # get_available_letters(letters_guessed)
   
-    # display available letters to the user
-    available_letters_left = print("   "f"Available letters: {get_available_letters(letters_guessed)}")
+    # # display available letters to the user
+    # available_letters_left = print(f"Available letters: {get_available_letters(letters_guessed)}")
     
     # when hangman is called, it will do the following actions
-    actions  = [loaded_words ,number_of_words_loaded,welcome_to_hangman, word_length, user_gueses, user_gueses_left, available_letters_left]
+    actions  = [loaded_words ,number_of_words_loaded,welcome_to_hangman, word_length, user_gueses]
     
-    return (loaded_words ,number_of_words_loaded,welcome_to_hangman, word_length, user_gueses, user_gueses_left, available_letters_left)
+    return actions
       
-letters_guessed = [] 
+
+letters_guessed = []
+random_word
+
+
+vowels = ["a","e","i","o","u"]
 
 # letters guessed will be an input from the user
 def user_input():
+  
+  #computer picks the secret word from random word above
+  secret_word = random_word
+  
+  # game initialisation
+  hangman(secret_word)
+  
 
   # number of guesses the user has when they start the game
   guesses = 6
   
-  secret_word = "apple"
+  warnings = 3
+  
   
   # user letters are taken in as the while loop iterates throught the game
   user_letters = []
-  print(user_letters)
   
-  warnings = 3
-   
   while guesses != 0 or warnings != 0:
-       
+      
     # warnings to the user if they input forbiden characters or input a word twice
     
-    print(f"You have {warnings} left")
+    print(f"You have {warnings} warnings left")
     # print the guesses the user has everytime they try to guess the correct word
     print(f"You have {guesses} guess/(es) left\n")
     
@@ -204,73 +221,95 @@ def user_input():
     print(f"Available letters:{get_available_letters(letters_guessed = user_letters)}\n")
     
     # catching the user input into letters_guesssed
-    letters_guessed = input("Please guess a letter: \n")
-    
-     
-    string_check = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+    letters_guessed = input("Please guess a letter:  ")
+          
+    string_check = re.compile('[@_!#$%^&*()<>?/\|}{~:];:')
     
     user_letters.append(letters_guessed)
-    
+      
     #taking user input and making sure it is always lowercase
     letters_guessed = letters_guessed.lower()  
-        
+      
     if letters_guessed in secret_word:
-      print(f"Good guess: {get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
-      print("---------------------\n")
+       
+      print(f"Good guess: {get_guessed_word(secret_word, letters_guessed = user_letters)}")
+      
+      if get_guessed_word(secret_word, letters_guessed = user_letters) == secret_word:
+        
+        print("------------------------------------------")
+        
+        print("Congratulations, you won!")
+        
+        guesses_remaining = guesses
+                  
+        unique_letters = []
+                  
+        for x in user_letters:
+          
+          if x not in unique_letters:
+            unique_letters.append(x)
+
+        number_of_unique_letters = len(unique_letters)
+        
+        Total_score = guesses_remaining * number_of_unique_letters
+        
+        print(f"Your total score for this game is {Total_score}")
+                
+        break
+      
+      print("-----------------------------------------")
       
     elif(string_check.search(letters_guessed) != None or letters_guessed.isnumeric()):
         
         if warnings <= 0:
           warnings = 0
-          print(f"Oops! That letter is a valid letter. : {get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
-          print("---------------------\n")
+          print(f"Oops! That letter is not a valid letter.You have no warnings left so you lose one guess: {get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
+          print("-----------------------------------------")
           guesses -= 1
                     
         else:
           warnings -=1
-          print(f"Oops! That letter is a valid letter. You have {warnings} warnings left: {get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
-          print("---------------------\n")
+          print(f"Oops! That letter is not a valid letter. You have {warnings} warnings left: {get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
+          print("-----------------------------------------")
           guesses -= 1
-         
-    else:
-        print(f"Oops! That letter is not in my word :{get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
-        print("---------------------\n")
-        guesses -= 1
-      
+          continue
         
-    # populate the user list with all letters from the user
-    # user_letters.append(letters_guessed)
-      
-     
-  
-  
+    elif letters_guessed in vowels:
+        print(f"Oops! That letter is not in my word :{get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
+        print("-----------------------------------------")
+        guesses -= 2
+        
+    else:
+       print(f"Oops! That letter is not in my word :{get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
+       print("-----------------------------------------")
+       guesses -= 1
     
-    
-    # user has 3 warnings everytime they start
-    # user_warnings = 
-  
-    # the user loses a guess only when they guess a letter that is not in the secret word
+    if guesses == 0:
+      print (f"Sorry, you ran out of guesses. The word was {secret_word}.")
+      break    
    
-      
-      
-      
-
-   
-
   get_guessed_word(secret_word, letters_guessed)
-  # get_available_letters(letters_guessed)
+  is_word_guessed(secret_word, letters_guessed)
   
   
-user_input()
-# secret_word = choose_word(wordlist)
-# hangman(secret_word)
+# secret_word = "apple" 
+  
+
+# # secret_word = choose_word(wordlist)
+# # hangman(secret_word)
 
 
-# warnings available to the user
 
 
 
 
+
+# secret_word = "apple"
+# guesses_remaining = []
+# number_of_unique_letters = len (secret_word)
+
+
+# calculate user's total score
 
   
 # When you've completed your hangman function, scroll down to the bottom
