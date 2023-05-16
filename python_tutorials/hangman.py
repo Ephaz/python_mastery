@@ -116,10 +116,7 @@ def get_available_letters(letters_guessed):
       i += 1
       m += 1
     return string.ascii_lowercase
-
-
-    
-
+  
 
 def hangman(secret_word):
     '''
@@ -271,7 +268,6 @@ def user_input():
           warnings -=1
           print(f"Oops! That letter is not a valid letter. You have {warnings} warnings left: {get_guessed_word(secret_word, letters_guessed = user_letters)} \n")
           print("-----------------------------------------")
-          guesses -= 1
           continue
         
     elif letters_guessed in vowels:
@@ -294,9 +290,9 @@ def user_input():
   
 # secret_word = "apple" 
   
-
+user_input()
 # # secret_word = choose_word(wordlist)
-# # hangman(secret_word)
+# hangman(secret_word=random_word)
 
 
 
